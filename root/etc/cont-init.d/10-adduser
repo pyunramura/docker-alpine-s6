@@ -1,0 +1,36 @@
+#!/usr/bin/with-contenv sh
+
+UID=${UID:-783}
+GID=${GID:-783}
+
+groupmod -o -g "$GID" abc
+usermod -o -u "$UID" abc
+echo '
+,------------------------------------------------------.
+|           ______   ___.__. __ __   ____              |
+|           \____ \ <   |  ||  |  \ /    \             |
+|           |  |_> > \___  ||  |  /|   |  \            |
+|           |   __/  / ____||____/ |___|  /            |
+|           |__|     \/                 \/             |
+|                                                      |
+|   _______ _____     _____   __ __ _______ _____      |
+|   \_  __ \\__  \   /     \ |  |  \\_  __ \\__  \     |
+|    |  | \/ / __ \_|  Y Y  \|  |  / |  | \/ / __ \_   |
+|    |__|   (____  /|__|_|  /|____/  |__|   (____  /   |
+|                \/       \/                     \/    |
+|                                                      |
+|   Thank you very much for trying my image (｡◕‿‿◕｡)   |
+| If you have any feedback or comments please email me |
+| @: 3348671-pyunramura@users.noreply.gitlab.com       |
+`------------------------------------------------------"
+
+GID/UID
+-------------------------------------------------------'
+echo "
+User uid:    $(id -u abc)
+User gid:    $(id -g abc)
+-------------------------------------------------------
+"
+chown abc:abc /app
+chown abc:abc /config
+chown abc:abc /defaults

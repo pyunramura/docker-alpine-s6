@@ -1,0 +1,16 @@
+#!/bin/bash
+
+curl -s http://dl-cdn.alpinelinux.org/alpine/latest-stable/releases/x86_64/latest-releases.yaml | \
+    grep -E '(file:\s)(.*mini)(.*tar...)' | cut -d " " -f 4 | \
+    sed -e 's/^/url http:\/\/dl-cdn.alpinelinux.org\/alpine\/latest-stable\/releases\/x86_64\//' | \
+    curl -s -K- -o rootfs.tar.gz \
+    && gzip -dq rootfs.tar.gz \
+    && xz -zeq rootfs.tar
+docker build \
+        --build-arg OVERLAY_ARCH=$(cat s6-ARCH) \
+        --build-arg OVERLAY_VERSION=$(cat s6-VERSION) \
+        --build-arg BUILD_DATE=$(date -u +"%Y-%m-%dT%H:%M:%SZ") \
+        --build-arg VCS_REF=$(git rev-parse --short HEAD) \
+        --build-arg VCS_URL=$(git config --get remote.origin.url) \
+        --build-arg VERSION=$(cat VERSION) \
+              -t $IMAGE_NAME .
